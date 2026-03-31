@@ -3,6 +3,7 @@ package com.sistema.factura.Servicios;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sistema.factura.Entidades.Ciudad;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Service
 @NoArgsConstructor
 public class CiudadServicio {
+    @Autowired
     private CiudadRepositorio ciudadRepositorio;
 
     public Ciudad guardarCiudad(Ciudad ciudad){

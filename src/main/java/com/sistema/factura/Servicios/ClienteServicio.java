@@ -3,6 +3,7 @@ package com.sistema.factura.Servicios;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sistema.factura.Entidades.Cliente;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Service
 @NoArgsConstructor
 public class ClienteServicio {
+   @Autowired
     private ClienteRepositorio clienteRepositorio;
 
     public Cliente guardarCliente(Cliente cliente){
@@ -28,6 +30,6 @@ public class ClienteServicio {
         return clienteRepositorio.findById(id);
     }
     public Optional<Cliente> buscarClientePorCedula(String cedula){
-        return clienteRepositorio.buscarPorCedula(cedula);
+        return clienteRepositorio.findByCedula(cedula);
     }
 }
