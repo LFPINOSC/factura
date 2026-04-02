@@ -1,32 +1,41 @@
 package com.sistema.factura.Seguridad;
 
-import java.security.Key;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-public class JwtUtil {
-    private static final String secret= "mi_clave_secreta_para_jwt_2026";
-    private static final long expiration= 3600000; 
-    private static final Key key = Keys.hmacShaKeyFor(secret.getBytes());
+import org.springframework.stereotype.Component;
 
-    public static String generateToken(String username, String role){
-        return io.jsonwebtoken.Jwts.builder()
+import java.security.Key;
+import java.util.Date;
+
+@Component
+public class JwtUtil {
+
+    private final String SECRET = "mi_clave_super_secreta_123456789012345";
+
+    private Key getKey(){
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
+
+    public String generarToken(String username){
+
+        return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
-                .signWith(key)
-                .setExpiration(new java.util.Date(System.currentTimeMillis() + expiration))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(getKey())
                 .compact();
     }
-    public static String validarToken(String token){
-        try {
-            var claims = io.jsonwebtoken.Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-            return claims.getSubject();
-        } catch (Exception e) {
-            return null;
-        }
+
+    public String validarToken(String token){
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
     }
 }
