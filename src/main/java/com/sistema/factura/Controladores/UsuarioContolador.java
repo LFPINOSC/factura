@@ -13,6 +13,7 @@ import com.sistema.factura.Servicios.UsuarioServicio;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.NoArgsConstructor;
+
 @RestController
 @RequestMapping("/api/usuario")
 @NoArgsConstructor
@@ -22,6 +23,8 @@ public class UsuarioContolador {
 
     @PostMapping
     public Usuario guardarUsuario(@RequestBody Usuario usuario){
+         System.out.println(usuario.getNombre());
+        System.out.println(usuario.getEmail());
         return usuarioServicio.guardarUsuario(usuario);
     }
     
