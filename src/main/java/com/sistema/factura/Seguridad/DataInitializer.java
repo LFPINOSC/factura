@@ -1,9 +1,9 @@
 package com.sistema.factura.Seguridad;
 
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.sistema.factura.Entidades.Usuario;
 import com.sistema.factura.Servicios.UsuarioServicio;
@@ -12,24 +12,23 @@ import com.sistema.factura.Servicios.UsuarioServicio;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner initUsuarios(UsuarioServicio usuarioServicio) {
+    public CommandLineRunner initUsuarios(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         return args -> {
-
             String username = "admin";
 
-            // Verificar si ya existe
             if (usuarioServicio.buscarUsuarioPorUsername(username).isEmpty()) {
-
                 Usuario admin = new Usuario();
+                admin.setNombre("Administrador");
+                admin.setEmail("admin@factura.com");
                 admin.setUsername("admin");
-                admin.setPassword("admin123"); // ⚠️ luego encriptamos
+                admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setRol("ADMIN");
 
                 usuarioServicio.guardarUsuario(admin);
 
-                System.out.println("✅ Usuario admin creado");
+                System.out.println("✅ Usuario admin creado correctamente");
             } else {
-                System.out.println("ℹ️ Usuario admin ya existe");
+                System.out.println("ℹ️ El usuario admin ya existe");
             }
         };
     }
