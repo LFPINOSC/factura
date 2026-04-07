@@ -1,4 +1,4 @@
-package com.sistema.facturasc.Entidades;
+package com.sistema.factura.Entidades;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
