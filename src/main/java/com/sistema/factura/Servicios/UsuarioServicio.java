@@ -17,19 +17,22 @@ public class UsuarioServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    public Usuario guardarUsuario(Usuario usuario){
+    public Usuario crearUsuario(Usuario usuario){
         return usuarioRepositorio.save(usuario);
     }
-    public List<Usuario> allUsuarios(){
+    public List<Usuario> obtenerUsuarios(){
         return usuarioRepositorio.findAll();
     }
-    public void eliminarUsuario(Long id){
-        usuarioRepositorio.deleteById(id);
+    public Usuario obtenerUsuarioPorId(Long id){
+        return usuarioRepositorio.findById(id).orElse(null);
     }
-    public Optional<Usuario> buscarUsuarioPorId(Long id){
-        return usuarioRepositorio.findById(id);
+    public void deleteUsuario(Long id){
+        Usuario usuario = usuarioRepositorio.findById(id).orElse(null);
+        if(usuario != null){
+            usuarioRepositorio.delete(usuario);
+        }
     }
-    public Optional<Usuario> buscarUsuarioPorUsername(String username){
+    public Optional<Usuario> fyUsuarioUsername(String username){
         return usuarioRepositorio.findByUsername(username);
     }
 

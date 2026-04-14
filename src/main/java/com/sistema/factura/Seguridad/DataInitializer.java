@@ -10,21 +10,20 @@ import com.sistema.factura.Servicios.UsuarioServicio;
 
 @Configuration
 public class DataInitializer {
-
     @Bean
     public CommandLineRunner initUsuarios(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         return args -> {
             String username = "admin";
 
-            if (usuarioServicio.buscarUsuarioPorUsername(username).isEmpty()) {
+            if (usuarioServicio.fyUsuarioUsername(username).isEmpty()) {
                 Usuario admin = new Usuario();
                 admin.setNombre("Administrador");
-                admin.setEmail("admin@factura.com");
+                admin.setCorreo("admin@factura.com");
                 admin.setUsername("admin");
                 admin.setPassword(passwordEncoder.encode("admin123"));
-                admin.setRol("ADMIN");
+              
 
-                usuarioServicio.guardarUsuario(admin);
+                usuarioServicio.crearUsuario(admin);
 
                 System.out.println("✅ Usuario admin creado correctamente");
             } else {
