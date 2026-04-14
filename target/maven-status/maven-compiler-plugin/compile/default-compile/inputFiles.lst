@@ -4,11 +4,15 @@ D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Controlad
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\DTO\LoginRequest.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\Ciudad.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\Cliente.java
+D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\DetallesFactura.java
+D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\Factura.java
+D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\Producto.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Entidades\Usuario.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\FacturaApplication.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Repositorios\CiudadRepositorio.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Repositorios\ClienteRepositorio.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Repositorios\UsuarioRepositorio.java
+D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Seguridad\CorsConfig.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Seguridad\DataInitializer.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Seguridad\JwtFilter.java
 D:\Cuarto COMPUTACIONAL\facturaClase\src\main\java\com\sistema\factura\Seguridad\JwtUtil.java
