@@ -13,10 +13,10 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message = "La cédula no puede estar vacía")
     @Size(min = 10, max = 10, message = "La cédula debe tener 10 dígitos")
     @Pattern(regexp = "\\d{10}", message = "La cédula debe contener exactamente 10 números")
+   
     @Column(unique = true, nullable = false, length = 10)
     private String cedula;
 
