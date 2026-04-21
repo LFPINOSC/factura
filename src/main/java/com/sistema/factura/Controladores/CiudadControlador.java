@@ -3,16 +3,9 @@ package com.sistema.factura.Controladores;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.sistema.factura.Entidades.Ciudad;
 import com.sistema.factura.Servicios.CiudadServicio;
@@ -23,27 +16,100 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/ciudad")
 @RequiredArgsConstructor
 public class CiudadControlador {
-    @Autowired
-    private CiudadServicio ciudadServicio;
+
+    private final CiudadServicio ciudadServicio;
 
     @PostMapping
-    public Ciudad guardarCiudad(@RequestBody Ciudad ciudad){
-        return ciudadServicio.guardarCiudad(ciudad);
+    public ResponseEntity<?> guardarCiudad(@RequestBody Ciudad ciudad) {
+        try {
+            if (ciudad == null) {
+                return ResponseEntity.badRequest().body("Los datos de la ciudad no pueden estar vacíos.");
+            }
+
+            Ciudad ciudadGuardada = ciudadServicio.guardarCiudad(ciudad);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ciudadGuardada);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al guardar la ciudad: " + e.getMessage());
+        }
     }
+
     @GetMapping
-    public List<Ciudad> allCiudades(){
-        return ciudadServicio.allCiudades();
+    public ResponseEntity<?> allCiudades() {
+        try {
+            List<Ciudad> ciudades = ciudadServicio.allCiudades();
+
+            if (ciudades.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No existen ciudades registradas.");
+            }
+
+            return ResponseEntity.ok(ciudades);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener las ciudades: " + e.getMessage());
+        }
     }
-    @DeleteMapping("/{id}")
-    public void eliminarCiudad(@PathVariable Long id){
-        ciudadServicio.eliminarCiudad(id);
-    }
+
     @GetMapping("/{id}")
-    public Optional<Ciudad> getCiudad(@PathVariable Long id){
-        return ciudadServicio.buscarCiudadPorId(id);
+    public ResponseEntity<?> getCiudad(@PathVariable Long id) {
+        try {
+            Optional<Ciudad> ciudad = ciudadServicio.buscarCiudadPorId(id);
+
+            if (ciudad.isPresent()) {
+                return ResponseEntity.ok(ciudad.get());
+            }
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró la ciudad con id: " + id);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al buscar la ciudad: " + e.getMessage());
+        }
     }
+
     @PutMapping("/{id}")
-    public Ciudad actualizarCiudad(@PathVariable Long id, @RequestBody Ciudad ciudad){
-        return ciudadServicio.guardarCiudad(ciudad);
+    public ResponseEntity<?> actualizarCiudad(@PathVariable Long id, @RequestBody Ciudad ciudad) {
+        try {
+            Optional<Ciudad> ciudadExistente = ciudadServicio.buscarCiudadPorId(id);
+
+            if (ciudadExistente.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No existe la ciudad con id: " + id);
+            }
+
+            Ciudad ciudadActual = ciudadExistente.get();
+
+            // Aquí debes ajustar los campos según tu entidad Ciudad
+            ciudadActual.setNombre(ciudad.getNombre());
+
+            Ciudad ciudadActualizada = ciudadServicio.guardarCiudad(ciudadActual);
+            return ResponseEntity.ok(ciudadActualizada);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al actualizar la ciudad: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarCiudad(@PathVariable Long id) {
+        try {
+            Optional<Ciudad> ciudadExistente = ciudadServicio.buscarCiudadPorId(id);
+
+            if (ciudadExistente.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No existe la ciudad con id: " + id);
+            }
+
+            ciudadServicio.eliminarCiudad(id);
+            return ResponseEntity.ok("Ciudad eliminada correctamente.");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar la ciudad: " + e.getMessage());
+        }
     }
 }
