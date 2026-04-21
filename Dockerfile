@@ -1,16 +1,15 @@
-# Imagen con Java 21
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY . .
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
 
-# Dar permisos de ejecución a mvnw
 RUN chmod +x mvnw
-
-# Compilar el proyecto
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/unidos-0.0.1-SNAPSHOT.jar"]
+CMD ["sh", "-c", "java -jar target/*.jar"]
